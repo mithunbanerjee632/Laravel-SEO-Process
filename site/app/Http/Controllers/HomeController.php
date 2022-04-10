@@ -21,24 +21,73 @@ class HomeController extends Controller
     function HomeIndex(){
 
         $HomeSeo = SeoHomeModel::all();
-        SEOMeta::setTitle($HomeSeo[0]['title']);
-        SEOMeta::setDescription($HomeSeo[0]['description']);
-        SEOMeta::setCanonical('https://mithun.com');
 
-        OpenGraph::setDescription($HomeSeo[0]['share_title']);
-        OpenGraph::setTitle($HomeSeo[0]['description']);
-        OpenGraph::setUrl('https://mithun.com');
-        OpenGraph::addProperty('type', 'articles');
+        $actual_link = "http:://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $homeLink = "http:://$_SERVER[HTTP_HOST]";
+        $homeTitle = $HomeSeo[0]['title'];
+        $homeShareTitle = $HomeSeo[0]['share_title'];
+        $homeDescription = $HomeSeo[0]['description'];
+        $homeKeywords = $HomeSeo[0]['keywords'];
+        $homeImage = $homeLink."/".$HomeSeo[0]['page_img'];
 
-        TwitterCard::setTitle($HomeSeo[0]['share_title']);
-        TwitterCard::setSite('@mithunbanerjee62');
+       //google
+        SEOMeta::setTitle($homeTitle);
+        SEOMeta::setDescription($homeDescription);
+        //SEOMeta::addMeta('article:published_time', $post->published_date->toW3CString(), 'property');
+        //SEOMeta::addMeta('article:section', $post->category, 'property');
+        SEOMeta::addKeyword($homeKeywords);
+        SEOMeta::setCanonical($actual_link);
+       
+        //facebook
 
-        JsonLd::setTitle($HomeSeo[0]['share_title']);
-        JsonLd::setDescription($HomeSeo[0]['description']);
-        JsonLd::addImage($HomeSeo[0]['page_img']);
+       // OpenGraph::addProperty($key, $value); // value can be string or array
+        OpenGraph::addImage($homeImage); // add image url
+        //OpenGraph::addImages($url); // add an array of url images
+        OpenGraph::setTitle($homeTitle); // define title
+        OpenGraph::setDescription($homeDescription);  // define description
+        OpenGraph::setUrl($actual_link); // define url
+        OpenGraph::setSiteName($homeShareTitle); //define site_name
+
+        //twitter
+
+        //TwitterCard::addValue($key, $value); // value can be string or array
+        //TwitterCard::setType($type); // type of twitter card tag
+        TwitterCard::setTitle($homeTitle); // title of twitter card tag
+        TwitterCard::setSite($homeLink); // site of twitter card tag
+        TwitterCard::setDescription($homeDescription); // description of twitter card tag
+        TwitterCard::setUrl($actual_link); // url of twitter card tag
+        TwitterCard::setImage($homeImage); // add image url
 
 
 
+
+        //json ld
+       // JsonLd::addValue($key, $value); // value can be string or array
+        //JsonLd::setType($type); // type of twitter card tag
+        JsonLd::setTitle($homeTitle); // title of twitter card tag
+        JsonLd::setSite($actual_link); // site of twitter card tag
+        JsonLd::setDescription($homeDescription); // description of twitter card tag
+        JsonLd::setUrl($actual_link); // url of twitter card tag
+        JsonLd::setImage($homeImage); // add image ur
+
+
+
+
+        // SEOMeta::setTitle($HomeSeo[0]['title']);
+        // SEOMeta::setDescription($HomeSeo[0]['description']);
+        // SEOMeta::setCanonical('https://mithun.com');
+
+        // OpenGraph::setDescription($HomeSeo[0]['share_title']);
+        // OpenGraph::setTitle($HomeSeo[0]['description']);
+        // OpenGraph::setUrl('https://mithun.com');
+        // OpenGraph::addProperty('type', 'articles');
+
+        // TwitterCard::setTitle($HomeSeo[0]['share_title']);
+        // TwitterCard::setSite('@mithunbanerjee62');
+
+        // JsonLd::setTitle($HomeSeo[0]['share_title']);
+        // JsonLd::setDescription($HomeSeo[0]['description']);
+        // JsonLd::addImage($HomeSeo[0]['page_img']);
 
 
 
